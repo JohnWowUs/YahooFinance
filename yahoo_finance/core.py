@@ -3,7 +3,7 @@
 """
 #!/usr/bin/env python
 
-import urllib2
+import requests
 import re, json
 from collections import OrderedDict
 
@@ -17,15 +17,14 @@ def load_data(location='http://finance.yahoo.com/world-indices',
     done = False
     while (retry_count < retry) and not done:
         try:
-            #yahoo_request = requests.get(location)
-            yahoo_request = urllib2.urlopen(location)
+            yahoo_request = requests.get(location)
             done = True
-        except urllib2.HTTPError, e:
+        except requests.exceptions.Timeout:
             retry_count += 1
             if retry_count >= retry:
                 raise
-    if yahoo_request.getcode() == 200:
-        return yahoo_request.read()
+    if yahoo_request.status_code == 200:
+        return yahoo_request.text
     return ''
 
 def scrape_world_indices_quote_data(pagedata):
