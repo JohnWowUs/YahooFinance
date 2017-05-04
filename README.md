@@ -13,9 +13,22 @@ Module and script to scrape major indices quote data from yahoo finance page
 
 
 
-## Usage
+## Usage (Linux/Unix)
 
 	usage: download_major_indices [-h] [--source SOURCE] [--format {csv,json}] [--output OUTPUT] [--timestamp]
+	
+	optional arguments:
+	  --help               Show this help message and exit
+	  --source SOURCE      Data source (default = http://finance.yahoo.com/world-indices)
+	  --format {csv,json}  Output format (default = csv)
+	  --output OUTPUT      Output file name (defaut
+	  --timestamp          Include timestamp in output filename
+
+## Usage (Windows)
+
+From a ```cmd``` window
+
+	usage: python [python script location]\download_major_indices [-h] [--source SOURCE] [--format {csv,json}] [--output OUTPUT] [--timestamp]
 	
 	optional arguments:
 	  --help               Show this help message and exit
