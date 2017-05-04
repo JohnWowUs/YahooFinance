@@ -21,13 +21,15 @@ def runner(source, output, format, timestamp):
         outputstring = utils.write_dict_to_csv(formatted_data)
     else:
         outputstring = utils.write_dict_to_json(formatted_data)
-
-    if not timestamp:
-        outputfilename = output+'.'+format
+    if output != '':
+        if not timestamp:
+            outputfilename = output+'.'+format
+        else:
+            outputfilename = output+'.'+time.strftime('%Y%m%d_%H%M%S', time.localtime())+'.'+format
+        with open(outputfilename, 'w') as f:
+            f.write(outputstring)
     else:
-        outputfilename = output+'.'+time.strftime('%Y%m%d_%H%M%S', time.localtime())+'.'+format
-    with open(outputfilename, 'w') as f:
-        f.write(outputstring)
+        print(outputstring)
     
     
 
@@ -38,7 +40,7 @@ if __name__ == '__main__':
                         help='Data source', default='http://finance.yahoo.com/world-indices')
     parser.add_argument('--format', action='store', choices=('csv', 'json'), 
                         default='csv', help='Output format')
-    parser.add_argument('--output', action='store', default='MajorIndices', 
+    parser.add_argument('--output', action='store', default='', 
                         help='Output file name')
     parser.add_argument('--timestamp', action='store_true', default=False,
                         help='Include timestamp in output filename')

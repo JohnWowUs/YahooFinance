@@ -6,20 +6,19 @@ Yahoo Finance Scrapper
 1. Clone this repository 
 2. Change to the repository directory
 3. Type the command
-     **pip install .**
+ ```pip install .``` 
 
 
 
 ## Usage
 
-Usage: **download_major_indices** [OPTIONS]
-
-Options:
-  --source TEXT               Data source
-  --format [**csv|json**]  Output format
-  --output TEXT               Output file name
-  /timestamp                   Include timestamp in output filename
-  --help                            Show this message and exit.
-
+	usage: download_major_indices [-h] [--source SOURCE] [--format {csv,json}] [--output OUTPUT] [--timestamp]
+	
+	optional arguments:
+	  --help               Show this help message and exit
+	  --source SOURCE      Data source (default = http://finance.yahoo.com/world-indices)
+	  --format {csv,json}  Output format (default = csv)
+	  --output OUTPUT      Output file name (defaut = 
+	  --timestamp          Include timestamp in output filename
 
 
