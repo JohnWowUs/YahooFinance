@@ -1,0 +1,47 @@
+#!/usr/bin/env python
+
+import argparse,sys,time
+from yahoo_finance import core
+from yahoo_finance import utils
+from collections import OrderedDict
+
+
+def runner(source, output, format, timestamp):
+    try:
+        page_data = core.load_data(source)
+    except Exception as e:
+        print('Encountered error loading page from "%s"' % source)
+        print('Error Details = "%s"' % e)
+        sys.exit()
+
+    raw_data  = core.scrape_world_indices_quote_data(page_data)
+    formatted_data = core.raw_data_to_dict(raw_data)
+    
+    if (format == 'csv'):
+        outputstring = utils.write_dict_to_csv(formatted_data)
+    else:
+        outputstring = utils.write_dict_to_json(formatted_data)
+
+    if not timestamp:
+        outputfilename = output+'.'+format
+    else:
+        outputfilename = output+'.'+time.strftime('%Y%m%d_%H%M%S', time.localtime())+'.'+format
+    with open(outputfilename, 'w') as f:
+        f.write(outputstring)
+    
+    
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument('--source', action='store', dest='source', 
+                        help='Data source', default='http://finance.yahoo.com/world-indices')
+    parser.add_argument('--format', action='store', choices=('csv', 'json'), 
+                        default='csv', help='Output format')
+    parser.add_argument('--output', action='store', default='MajorIndices', 
+                        help='Output file name')
+    parser.add_argument('--timestamp', action='store_true', default=False,
+                        help='Include timestamp in output filename')
+
+    results = parser.parse_args()
+    runner(results.source, results.output, results.format, results.timestamp)
